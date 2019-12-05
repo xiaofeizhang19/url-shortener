@@ -2,12 +2,19 @@ require 'sinatra/base'
 require_relative 'lib/url_shortener'
 
 class UrlManager < Sinatra::Base
-  before do
+  def initialize
+    super
     @url_shortener = UrlShortener.new
   end
-q
+
   get '/:short_url' do
-    # Retrive original url and redirect
+    original_url = @url_shortener.find_original_url(params[:short_url])
+    p original_url
+    if original_url.nil?
+      status 404
+      return
+    end
+    redirect original_url, 301
   end
 
   post '/' do
