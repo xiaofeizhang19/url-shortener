@@ -8,8 +8,9 @@ class UrlShortener
   end
 
   def add(original_url)
-    short_url = generate_short_url
-    @urls[short_url] = original_url
+    url = add_http_prefix_if_needed(original_url)
+    short_url = generate_unique_short_url
+    @urls[short_url] = url
     short_url
   end
 
@@ -18,6 +19,11 @@ class UrlShortener
   end
 
   private
+  def add_http_prefix_if_needed(url)
+    url = "http://#{url}" unless url.start_with?('http://', 'https://')
+    url
+  end
+
   def generate_short_url
     Array.new(6) { CHARS.sample }.join
   end
