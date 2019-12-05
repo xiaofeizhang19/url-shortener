@@ -2,6 +2,7 @@ class UrlShortener
   attr_reader :urls
 
   CHARS = Array('a'..'z') + Array('A'..'Z') + Array('0'..'9')
+
   def initialize
     @urls = {}
   end
@@ -9,6 +10,7 @@ class UrlShortener
   def add(original_url)
     short_url = generate_short_url
     @urls[short_url] = original_url
+    short_url
   end
 
   def find_original_url(short_url)
@@ -18,5 +20,13 @@ class UrlShortener
   private
   def generate_short_url
     Array.new(6) { CHARS.sample }.join
+  end
+
+  def generate_unique_short_url
+    short_url = generate_short_url
+    while @urls.include? short_url
+      short_url = generate_short_url
+    end
+    short_url
   end
 end
