@@ -1,7 +1,27 @@
 require 'sinatra/base'
+require 'sinatra/cross_origin'
+require 'json'
 require_relative 'lib/url_shortener'
 
 class UrlManager < Sinatra::Base
+  FE_URL = "http://localhost:3000"
+
+  configure do
+    enable :cross_origin
+  end
+
+  before do
+    response.headers["Access-Control-Allow-Origin"] = FE_URL
+  end
+  
+  options "*" do
+    response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, "\
+      "X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
+    response.headers["Access-Control-Allow-Origin"] = FE_URL
+    200
+  end
+  
   def initialize
     super
     @url_shortener = UrlShortener.new
