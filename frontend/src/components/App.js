@@ -1,11 +1,12 @@
 import React, { Component }from 'react'
+import ShortUrlForm from './ShortUrlForm'
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       originalUrl: '',
-      shortUrl:''
+      shortUrl: '',
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -29,6 +30,14 @@ export default class App extends Component {
   }
 
   render() {
+    const { shortUrl } = this.state;
+
+    let shortUrlForm;
+    if (shortUrl !== "") {
+      const link = `http://localhost:4567${shortUrl}`;
+      shortUrlForm = <ShortUrlForm link={link} />;
+    }
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -43,7 +52,8 @@ export default class App extends Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
+        {shortUrlForm}
       </div>
-    );
+    )
   }
 }
