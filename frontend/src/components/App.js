@@ -23,12 +23,23 @@ export default class App extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { originalUrl } = this.state;
+    if (originalUrl === "") {
+      alert ("URL can not be empty");
+      return;
+    }
     fetch('http://localhost:4567', {
       method: 'POST',
       body: JSON.stringify({url: originalUrl})
     })
-      .then(response => response.json())
-      .then(data => {this.setState({shortUrl: data.short_url})})
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json()
+      })
+      .then(data => {
+        this.setState({shortUrl: data.short_url})
+      })
       .catch(error => alert(error));
   }
 
