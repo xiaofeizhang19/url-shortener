@@ -13,21 +13,19 @@ As required, there is no external database. The URLs do not persist between rest
 - Clone the repository
 
 #### Backend
-- Navigate to ```backend``` folder
+- Navigate to the ```backend``` folder
 - Install Ruby denpendencies: ```bundle install```
 - Start the server: ```rackup -p4567```
 
 #### Frontend
-- Navigate to ```frontend``` folder
-- Install JS denpendencies and start server:   
+- Navigate to the ```frontend``` folder
+- Install JS denpendencies:   
 ```
 npm install
 ```
 or   
 ```
 brew install yarn
-```
-```
 yarn install
 ```
 - Start server:
@@ -38,4 +36,4 @@ or
 ```
 yarn start
 ```
-- Visit 'http://localhost:3000' to use the URL shortener.
+- Visit ```http://localhost:3000``` to use the app.
