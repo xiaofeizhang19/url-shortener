@@ -1,5 +1,6 @@
 import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import Form from 'react-bootstrap/Form';
 
 export default class ShortUrlForm extends React.Component {
   render() {
@@ -7,14 +8,18 @@ export default class ShortUrlForm extends React.Component {
 
     return (
       <div>
-        <label>
-          Your shortened URL:
-          <br />
-        </label>
-        <input readOnly value={link}/>
-        <CopyToClipboard text={link}>
-          <button>Copy URL</button>
-        </CopyToClipboard>   
+        <Form>
+          <Form.Group>
+            <Form.Label>
+              Your shortened URL:
+              <br />
+            </Form.Label>
+            <Form.Control readOnly value={link}/>
+          </Form.Group>
+        </Form>
+            <CopyToClipboard text={link}>
+              <button>Copy URL</button>
+            </CopyToClipboard>
       </div>
     );
   }

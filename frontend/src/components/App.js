@@ -1,5 +1,8 @@
-import React, { Component }from 'react'
-import ShortUrlForm from './ShortUrlForm'
+import React, { Component }from 'react';
+import Header from './Header.js';
+import ShortUrlForm from './ShortUrlForm';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default class App extends Component {
   constructor(props) {
@@ -39,21 +42,29 @@ export default class App extends Component {
     }
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Input the URL to be shortened:
-            <br />
-            <input 
-              type="text"
-              value={this.state.originalUrl}
-              onChange={this.handleChange}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        {shortUrlForm}
-      </div>
+      <>
+        <Header />
+        <div className="container">
+          <br />
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>
+                Input the URL to be shortened:
+                <br />
+              </Form.Label>
+              <Form.Control
+                type="text"
+                value={this.state.originalUrl}
+                onChange={this.handleChange}
+              />
+              <Button variant="secondary" type="submit">
+                Shorten URL
+              </Button>
+            </Form.Group>
+          </Form>
+          {shortUrlForm}
+        </div>
+      </>
     )
   }
 }
