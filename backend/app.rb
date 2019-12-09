@@ -29,7 +29,6 @@ class UrlManager < Sinatra::Base
 
   get '/:short_url' do
     original_url = @url_shortener.find_original_url(params[:short_url])
-    p original_url
     if original_url.nil?
       status 404
       return
@@ -39,11 +38,15 @@ class UrlManager < Sinatra::Base
 
   post '/' do
     original_url = JSON.parse(request.body.read)["url"]
-    short_url = @url_shortener.add(original_url)
-    {
-      "short_url": "/#{short_url}",
-      "url": original_url
-    }.to_json
+    if original_url.strip.empty?
+      halt 400, {"error": "URL cannot be empty"}.to_json
+    else
+      short_url = @url_shortener.add(original_url)
+      {
+        "short_url": "/#{short_url}",
+        "url": original_url
+      }.to_json
+    end
   end
 
   run if app_file == $0
