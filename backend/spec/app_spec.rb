@@ -47,4 +47,13 @@ RSpec.describe 'The HelloWorld App' do
     expect(last_response.status).to be(301)
     expect(last_response.location).to eq(original_url)
   end
+
+  it "returns 400 when given an invalid json request" do
+    post(
+      "/",
+      "url",
+      { 'CONTENT_TYPE' => 'application/json' },
+    )
+    expect(last_response.status).to be(400)
+  end
 end

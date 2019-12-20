@@ -10,12 +10,15 @@ class UrlShortener
   def add(original_url)
     url = add_http_prefix_if_needed(original_url)
     short_url = generate_unique_short_url
-    @urls[short_url] = url
+    @urls[short_url] = {
+      original_url: url,
+      counter: 0
+    }
     short_url
   end
 
   def find_original_url(short_url)
-    @urls[short_url]
+    @urls[short_url][:original_url] unless @urls[short_url].nil?
   end
 
   private

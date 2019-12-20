@@ -8,12 +8,11 @@ describe UrlShortener do
 
   it 'should retrieve the original url' do
     short_url = subject.add('http://www.google.co.uk')
-    p subject.urls
-    expect(subject.urls[short_url]).to eq('http://www.google.co.uk')
+    expect(subject.find_original_url(short_url)).to eq('http://www.google.co.uk')
   end
 
  it 'should add http prefix to url when necessary' do
     short_url = subject.add('www.google.co.uk')
-    expect(subject.urls[short_url]).to eq('http://www.google.co.uk')
+    expect(subject.find_original_url(short_url)).to eq('http://www.google.co.uk')
   end
 end

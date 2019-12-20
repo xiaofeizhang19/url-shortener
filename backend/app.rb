@@ -28,26 +28,40 @@ class UrlManager < Sinatra::Base
   end
 
   get '/:short_url' do
-    original_url = @url_shortener.find_original_url(params[:short_url])
+    short_url = params[:short_url]
+    original_url = @url_shortener.find_original_url(short_url)
     if original_url.nil?
       status 404
       return
     end
+    @url_shortener.urls[short_url][:counter] += 1
     redirect original_url, 301
   end
 
   post '/' do
-    original_url = JSON.parse(request.body.read)["url"]
-    if original_url.strip.empty?
-      halt 400, {"error": "URL cannot be empty"}.to_json
-    else
-      short_url = @url_shortener.add(original_url)
+    request_body = request.body.read
+    if !valid_json?(request_body)
+      halt 400, {"error": "Invalid Json object"}.to_json
+      return
+    end
+    original_request = JSON.parse(request_body)
+    if !original_request.include?("url") || original_request["url"].strip.empty?
+      halt 400, {"error": "Invalid request"}.to_json
+    else 
+      short_url = @url_shortener.add(original_request["url"])
       {
         "short_url": "/#{short_url}",
-        "url": original_url
+        "url": original_request["url"]
       }.to_json
     end
   end
+
+  def valid_json?(json)
+    JSON.parse(json)
+    return true
+  rescue JSON::ParserError => e
+    return false
+end
 
   run if app_file == $0
 end
